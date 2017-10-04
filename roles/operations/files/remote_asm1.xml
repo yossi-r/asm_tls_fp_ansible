@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<policy integrity_check="d25b4caa0ba24d321851cd0cc4bcc48b" bigip_version="12.1.2" name="/Common/asm_tls_fp.app/remote_asm1">
+<policy integrity_check="91eb24a0aaea530a7c6a7d88887fb74d" bigip_version="12.1.2" name="/Common/asm_tls_fp.app/remote_asm1">
   <policy_version>
-    <timestamp>2017-10-05T02:36:36Z</timestamp>
+    <timestamp>2017-10-05T03:39:06Z</timestamp>
     <device_name>bigip2.f5demo.com</device_name>
     <policy_name>/Common/asm_tls_fp.app/remote_asm1</policy_name>
-    <last_change>Data Guard Data Guard [update]: Custom Patterns List were set to 401. { audit: policy = /Common/asm_tls_fp.app/remote_asm1, username = admin, client IP = 10.128.1.1 }</last_change>
+    <last_change>Data Guard Data Guard [update]: Mask Data was set to disabled. { audit: policy = /Common/asm_tls_fp.app/remote_asm1, username = admin, client IP = 10.128.1.1 }</last_change>
   </policy_version>
   <encoding>utf-8</encoding>
   <maximum_http_length>8192</maximum_http_length>
@@ -482,7 +482,7 @@ Connection: close</response_header>
       <post_data_length>4096</post_data_length>
       <check_response>false</check_response>
       <in_staging>false</in_staging>
-      <last_updated>2017-10-05T02:35:23Z</last_updated>
+      <last_updated>2017-10-05T03:04:51Z</last_updated>
       <check_url_length>false</check_url_length>
       <check_request_length>false</check_request_length>
       <check_query_string_length>false</check_query_string_length>
@@ -501,7 +501,7 @@ Connection: close</response_header>
       <check_metachars>true</check_metachars>
       <check_methods>false</check_methods>
       <in_staging>false</in_staging>
-      <last_updated>2017-10-05T02:35:28Z</last_updated>
+      <last_updated>2017-10-05T03:04:55Z</last_updated>
       <clickjacking_protection>
         <enabled>false</enabled>
         <allow_rendering_in_frames>N/A</allow_rendering_in_frames>
@@ -536,7 +536,7 @@ Connection: close</response_header>
       <check_metachars>true</check_metachars>
       <check_methods>false</check_methods>
       <in_staging>false</in_staging>
-      <last_updated>2017-10-05T02:35:28Z</last_updated>
+      <last_updated>2017-10-05T03:04:55Z</last_updated>
       <clickjacking_protection>
         <enabled>false</enabled>
         <allow_rendering_in_frames>N/A</allow_rendering_in_frames>
@@ -575,7 +575,7 @@ Connection: close</response_header>
       <match_regular_expression></match_regular_expression>
       <is_sensitive>false</is_sensitive>
       <in_staging>false</in_staging>
-      <last_updated>2017-10-05T02:35:23Z</last_updated>
+      <last_updated>2017-10-05T03:04:51Z</last_updated>
       <parameter_name_metachars>
         <check_metachars>false</check_metachars>
       </parameter_name_metachars>
@@ -599,7 +599,7 @@ Connection: close</response_header>
       <match_regular_expression></match_regular_expression>
       <is_sensitive>false</is_sensitive>
       <in_staging>false</in_staging>
-      <last_updated>2017-10-05T02:35:23Z</last_updated>
+      <last_updated>2017-10-05T03:04:51Z</last_updated>
       <parameter_name_metachars>
         <check_metachars>true</check_metachars>
       </parameter_name_metachars>
@@ -12099,7 +12099,7 @@ Connection: close</response_header>
     <credit_card_numbers>false</credit_card_numbers>
     <social_security_numbers>false</social_security_numbers>
     <file_content>false</file_content>
-    <mask_data>true</mask_data>
+    <mask_data>false</mask_data>
     <check_custom_patterns>true</check_custom_patterns>
     <check_exception_patterns>false</check_exception_patterns>
     <enforcement_mode>enforce_only_url_list</enforcement_mode>

@@ -1,0 +1,5 @@
+ - ghetto_json:
+     path=/foo/bar.json
+     a=7
+     b.c=yellow
+     b.d=unset

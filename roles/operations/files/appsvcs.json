@@ -23,48 +23,6 @@
             ]
         },
         {
-            "name": "l7policy__rulesAction",
-            "columnNames": [
-                "Group",
-                "Target",
-                "Parameter"
-            ],
-            "rows": [
-                {
-                    "row": [
-                        "default",
-                        "asm/request/enable/policy",
-                        "bundled:remote_asm1"
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "l7policy__rulesMatch",
-            "columnNames": [
-                "Group",
-                "Operand",
-                "Negate",
-                "Condition",
-                "Value",
-                "CaseSensitive",
-                "Missing"
-            ],
-            "rows": [
-                {
-                    "row": [
-                        "default",
-                        "",
-                        "no",
-                        "",
-                        "",
-                        "no",
-                        "no"
-                    ]
-                }
-            ]
-        },
-        {
             "name": "monitor__Monitors",
             "columnNames": [
                 "Index",
@@ -141,7 +99,7 @@
             "rows": [
                 {
                     "row": [
-                        "asm:url=https://raw.githubusercontent.com/yossi-r/f5-tls-fp-credstuff/master/remote_asm1.xml"
+                        "asm:url=https://raw.githubusercontent.com/yossi-r/asm_tls_fp_ansible/master/roles/operations/files/remote_asm1.xml"
                     ]
                 },
                 {
