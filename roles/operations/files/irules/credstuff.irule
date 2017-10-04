@@ -40,7 +40,7 @@ when CLIENT_DATA {
             ## This is a TLS ClientHello message (22 = TLS handshake, 1 = ClientHello)
 
             ## Call the fingerprintTLS proc
-            set fingerprint [call Rule_Library::fingerprintTLS [TCP::payload] ${rlen} ${outer_sslver} ${inner_sslver} [IP::client_addr] [IP::local_addr]]
+            set fingerprint [call /Common/asm_tls_fp.app/tlsFingerprint.irule::fingerprintTLS [TCP::payload] ${rlen} ${outer_sslver} ${inner_sslver} [IP::client_addr] [IP::local_addr]]
 
                         ### Do Something here ###
             #log local0. "fingerprint = ${fingerprint}"

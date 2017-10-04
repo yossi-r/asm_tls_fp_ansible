@@ -1,7 +1,7 @@
 ---
 - name: Configure a appsvcs iapp service using parameters in JSON document
   bigip_iapp_service:
-    name: "appsvcs"
+    name: "asm_tls_fp"
     user: "{{ username }}"
     password: "{{ password }}"
     server: "{{ inventory_hostname }}"
