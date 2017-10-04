@@ -148,11 +148,6 @@
                     "row": [
                         "irule:url=https://raw.githubusercontent.com/yossi-r/asm_tls_fp_ansible/master/roles/operations/files/irules/credstuff.irule"
                     ]
-                },
-                {
-                    "row": [
-                        "irule:url=https://raw.githubusercontent.com/yossi-r/asm_tls_fp_ansible/master/roles/operations/files/irules/tlsFingerprint.irule"
-                    ]
                 }
             ]
         },
