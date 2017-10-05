@@ -1,5 +1,0 @@
- - ghetto_json:
-     path=try.json
-     a=7
-     b.c=yellow
-     b.d=unset
