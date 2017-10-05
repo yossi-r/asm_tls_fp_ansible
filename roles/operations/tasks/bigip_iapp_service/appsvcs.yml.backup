@@ -8,6 +8,6 @@
     template: "appsvcs_integration_v2.0.003"
     validate_certs: "false"
     state: "{{ state }}"
-    parameters: "{{ lookup('template', 'appsvcs.yml')|from_yaml }}"
+    parameters: "{{ lookup('file', 'appsvcs.json') }}"
   delegate_to: localhost
 ...

@@ -1,33 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 #
-# Copyright 2017 F5 Networks Inc.
-#
-# This file is part of Ansible
-#
-# Ansible is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# Ansible is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
+# Copyright (c) 2017 F5 Networks Inc.
+# GNU General Public License v3.0 (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-ANSIBLE_METADATA = {
-    'status': ['preview'],
-    'supported_by': 'community',
-    'metadata_version': '1.0'
-}
+ANSIBLE_METADATA = {'metadata_version': '1.1',
+                    'status': ['preview'],
+                    'supported_by': 'community'}
 
 DOCUMENTATION = '''
 ---
 module: bigip_iapp_service
-short_description: Manages TCL iApp services on a BIG-IP.
+short_description: Manages TCL iApp services on a BIG-IP
 description:
   - Manages TCL iApp services on a BIG-IP.
 version_added: "2.4"
@@ -42,16 +26,12 @@ options:
         template must exist on your BIG-IP before you can successfully
         create a service. This parameter is required if the C(state)
         parameter is C(present).
-    required: False
-    default: None
   parameters:
     description:
       - A hash of all the required template variables for the iApp template.
         If your parameters are stored in a file (the more common scenario)
         it is recommended you use either the `file` or `template` lookups
         to supply the expected parameters.
-    required: False
-    default: None
   force:
     description:
       - Forces the updating of an iApp service even if the parameters to the
@@ -59,19 +39,23 @@ options:
         the iApp template that underlies the service has been updated in-place.
         This option is equivalent to re-configuring the iApp if that template
         has changed.
-    required: False
-    default: False
+    default: no
   state:
     description:
       - When C(present), ensures that the iApp service is created and running.
         When C(absent), ensures that the iApp service has been removed.
-    required: False
     default: present
     choices:
       - present
       - absent
+  partition:
+    description:
+      - Device partition to manage resources on.
+    default: Common
 notes:
   - Requires the f5-sdk Python package on the host. This is as easy as pip
+    install f5-sdk.
+  - Requires the deepdiff Python package on the host. This is as easy as pip
     install f5-sdk.
 requirements:
   - f5-sdk
@@ -84,88 +68,142 @@ author:
 EXAMPLES = '''
 - name: Create HTTP iApp service from iApp template
   bigip_iapp_service:
-      name: "foo-service"
-      template: "f5.http"
-      parameters: "{{ lookup('file', 'f5.http.parameters.json') }}"
-      password: "secret"
-      server: "lb.mydomain.com"
-      state: "present"
-      user: "admin"
+    name: foo-service
+    template: f5.http
+    parameters: "{{ lookup('file', 'f5.http.parameters.json') }}"
+    password: secret
+    server: lb.mydomain.com
+    state: present
+    user: admin
   delegate_to: localhost
 
 - name: Upgrade foo-service to v1.2.0rc4 of the f5.http template
   bigip_iapp_service:
-      name: "foo-service"
-      template: "f5.http.v1.2.0rc4"
-      password: "secret"
-      server: "lb.mydomain.com"
-      state: "present"
-      user: "admin"
+    name: foo-service
+    template: f5.http.v1.2.0rc4
+    password: secret
+    server: lb.mydomain.com
+    state: present
+    user: admin
   delegate_to: localhost
 
 - name: Configure a service using parameters in YAML
   bigip_iapp_service:
-      name: "tests"
-      template: "web_frontends"
-      password: "admin"
-      server: "{{ inventory_hostname }}"
-      server_port: "{{ bigip_port }}"
-      validate_certs: "{{ validate_certs }}"
-      state: "present"
-      user: "admin"
-      parameters:
-          variables:
-              - name: "var__vs_address"
-                value: "1.1.1.1"
-              - name: "pm__apache_servers_for_http"
-                value: "2.2.2.1:80"
-              - name: "pm__apache_servers_for_https"
-                value: "2.2.2.2:80"
+    name: tests
+    template: web_frontends
+    password: admin
+    server: "{{ inventory_hostname }}"
+    server_port: "{{ bigip_port }}"
+    validate_certs: "{{ validate_certs }}"
+    state: present
+    user: admin
+    parameters:
+      variables:
+        - name: var__vs_address
+          value: 1.1.1.1
+        - name: pm__apache_servers_for_http
+          value: 2.2.2.1:80
+        - name: pm__apache_servers_for_https
+          value: 2.2.2.2:80
   delegate_to: localhost
 
 - name: Re-configure a service whose underlying iApp was updated in place
   bigip_iapp_service:
-      name: "tests"
-      template: "web_frontends"
-      password: "admin"
-      force: yes
-      server: "{{ inventory_hostname }}"
-      server_port: "{{ bigip_port }}"
-      validate_certs: "{{ validate_certs }}"
-      state: "present"
-      user: "admin"
-      parameters:
-          variables:
-              - name: "var__vs_address"
-                value: "1.1.1.1"
-              - name: "pm__apache_servers_for_http"
-                value: "2.2.2.1:80"
-              - name: "pm__apache_servers_for_https"
-                value: "2.2.2.2:80"
+    name: tests
+    template: web_frontends
+    password: admin
+    force: yes
+    server: "{{ inventory_hostname }}"
+    server_port: "{{ bigip_port }}"
+    validate_certs: "{{ validate_certs }}"
+    state: present
+    user: admin
+    parameters:
+      variables:
+        - name: var__vs_address
+          value: 1.1.1.1
+        - name: pm__apache_servers_for_http
+          value: 2.2.2.1:80
+        - name: pm__apache_servers_for_https
+          value: 2.2.2.2:80
+  delegate_to: localhost
+
+- name: Try to remove the iApp template before the associated Service is removed
+  bigip_iapp_template:
+    name: web_frontends
+    state: absent
+  register: result
+  failed_when:
+    - not result|success
+    - "'referenced by one or more applications' not in result.msg"
+
+- name: Configure a service using more complicated parameters
+  bigip_iapp_service:
+    name: tests
+    template: web_frontends
+    password: admin
+    server: "{{ inventory_hostname }}"
+    server_port: "{{ bigip_port }}"
+    validate_certs: "{{ validate_certs }}"
+    state: present
+    user: admin
+    parameters:
+      variables:
+        - name: var__vs_address
+          value: 1.1.1.1
+        - name: pm__apache_servers_for_http
+          value: 2.2.2.1:80
+        - name: pm__apache_servers_for_https
+          value: 2.2.2.2:80
+      lists:
+        - name: irules__irules
+          value:
+            - foo
+            - bar
+      tables:
+        - name: basic__snatpool_members
+        - name: net__snatpool_members
+        - name: optimizations__hosts
+        - name: pool__hosts
+          columnNames:
+            - name
+          rows:
+            - row:
+                - internal.company.bar
+        - name: pool__members
+          columnNames:
+            - addr
+            - port
+            - connection_limit
+          rows:
+            - row:
+                - ""
+                - 80
+                - 0
+        - name: server_pools__servers
   delegate_to: localhost
 '''
 
 RETURN = '''
-
+# only common fields returned
 '''
 
-from ansible.module_utils.basic import BOOLEANS
 from ansible.module_utils.f5_utils import (
     AnsibleF5Client,
     AnsibleF5Parameters,
     HAS_F5SDK,
     F5ModuleError,
     iteritems,
-    defaultdict,
     iControlUnexpectedHTTPError
 )
 from deepdiff import DeepDiff
 
 
 class Parameters(AnsibleF5Parameters):
-    returnables = ['variables']
+    returnables = []
     api_attributes = [
-        'tables', 'variables', 'template', 'lists'
+        'tables', 'variables', 'template', 'lists', 'deviceGroup',
+        'inheritedDevicegroup', 'inheritedTrafficGroup', 'trafficGroup'
     ]
     updatables = ['tables', 'variables', 'lists']
 
@@ -232,6 +270,10 @@ class Parameters(AnsibleF5Parameters):
                 tmp['encrypted'] = 'no'
             if 'value' not in tmp:
                 tmp['value'] = ''
+
+            # This seems to happen only on 12.0.0
+            elif tmp['value'] == 'none':
+                tmp['value'] = ''
             result.append(tmp)
         result = sorted(result, key=lambda k: k['name'])
         return result
@@ -284,12 +326,22 @@ class Parameters(AnsibleF5Parameters):
             self.variables = value['variables']
         if 'lists' in value:
             self.lists = value['lists']
+        if 'deviceGroup' in value:
+            self.deviceGroup = value['deviceGroup']
+        if 'inheritedDevicegroup' in value:
+            self.inheritedDevicegroup = value['inheritedDevicegroup']
+        if 'inheritedTrafficGroup' in value:
+            self.inheritedTrafficGroup = value['inheritedTrafficGroup']
+        if 'trafficGroup' in value:
+            self.trafficGroup = value['trafficGroup']
 
     @property
     def template(self):
         if self._values['template'] is None:
             return None
-        if self._values['template'].startswith("/"+self.partition):
+        if self._values['template'].startswith("/" + self.partition):
+            return self._values['template']
+        elif self._values['template'].startswith("/"):
             return self._values['template']
         else:
             return '/{0}/{1}'.format(
@@ -323,7 +375,7 @@ class ModuleManager(object):
                 attr1 = getattr(self.want, key)
                 attr2 = getattr(self.have, key)
                 if attr1 != attr2:
-                    changed[key] = str(DeepDiff(attr1,attr2))
+                    changed[key] = str(DeepDiff(attr1, attr2))
         if changed:
             self.changes = Parameters(changed)
             return True
@@ -434,24 +486,16 @@ class ArgumentSpec(object):
         self.supports_check_mode = True
         self.argument_spec = dict(
             name=dict(required=True),
-            template=dict(
-                required=False,
-                default=None
-            ),
+            template=dict(),
             parameters=dict(
-                required=False,
-                default=None,
                 type='dict'
             ),
             state=dict(
-                required=False,
                 default='present',
                 choices=['absent', 'present']
             ),
             force=dict(
-                required=False,
                 default=False,
-                choices=BOOLEANS,
                 type='bool'
             )
         )
@@ -476,6 +520,7 @@ def main():
         client.module.exit_json(**results)
     except F5ModuleError as e:
         client.module.fail_json(msg=str(e))
+
 
 if __name__ == '__main__':
     main()
