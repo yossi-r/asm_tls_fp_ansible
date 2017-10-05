@@ -1,0 +1,135 @@
+when RULE_INIT {
+
+    #################################################################################################################################
+    #Global variables assigment 
+    #debug level, 0 - disabled , 1 - debug , 2 - verbose debug
+    set static::debug 1
+    #The content of the HTTP response we send back in response to malicious request
+    set static::blocked_response "username and password incorrect"
+    #################################################################################################################################
+
+    #################################################################################################################################
+    #variables for fingerprint
+    #maxFailedLoginFingerprintValue is the maximum number of failed login attempts from the same fingerprint in the period of time specified in 'failedLoginFingerprintTimeWindow' in seconds
+    set static::maxFailedLoginFingerprintValue 2
+    set static::failedLoginFingerprintTimeWindow 60
+    #period of time in seconds the fingerprint is blocked once it reached the blocking threshold
+    set static::blockingFingerprintPeriod 60
+    #################################################################################################################################
+
+}
+
+when CLIENT_ACCEPTED {
+
+    #################################################################################################################################
+    #initialize fingerprint
+    set fingerprint 0
+    ## Collect the TCP payload
+    TCP::collect
+    #################################################################################################################################
+
+}
+when CLIENT_DATA {
+
+    #################################################################################################################################
+    #Get the data we need to fingerprint the tls session and call the fingerprint function
+    if { ! [info exists rlen] } {
+        binary scan [TCP::payload] cH4ScH6H4 rtype outer_sslver rlen hs_type rilen inner_sslver
+
+        if { ( ${rtype} == 22 ) and ( ${hs_type} == 1 ) } {
+            ## This is a TLS ClientHello message (22 = TLS handshake, 1 = ClientHello)
+
+            ## Call the fingerprintTLS proc
+            set fingerprint [call Rule_Library::fingerprintTLS [TCP::payload] ${rlen} ${outer_sslver} ${inner_sslver} [IP::client_addr] [IP::local_addr]]
+
+                        ### Do Something here ###
+            #log local0. "fingerprint = ${fingerprint}"
+                        ### Do Something here ###
+
+        }
+    }
+
+    # Collect the rest of the record if necessary
+    if { [TCP::payload length] < $rlen } {
+        TCP::collect $rlen
+    }
+
+    ## Release the paylaod
+    TCP::release
+    #################################################################################################################################
+
+}
+
+when HTTP_REQUEST {
+
+    #################################################################################################################################
+    #Delete a fingerprint from the tables, just for testeing purpose!!, need to build it in a more secure way 
+    if {([HTTP::uri] eq "/fingerprintdelete")&&([HTTP::header exists "fingerprintDelete"])} {
+    set fingerprintDelete [HTTP::header fingerprintDelete]
+    table delete -subtable BLOCKED_FINGERPRINT $fingerprintDelete
+    table delete -subtable FAILED_LOGIN_FINGERPRINT $fingerprintDelete
+    if {$static::debug > 0} {log local0. "Deleted fingerprint from tables fingerprint: $fingerprint "}
+    }
+    #################################################################################################################################
+
+    #################################################################################################################################
+    #insert the ssl fingerprint to an header so we can use it in ASM. application might also use it.
+    #comment out if you don't want to change the HTTP request
+    HTTP::header insert sslFingerprint $fingerprint
+    if {$static::debug > 1} {log local0. "inserting http header with fingerprint: $fingerprint"}
+    #################################################################################################################################
+
+}
+
+when ASM_REQUEST_DONE {
+
+    #################################################################################################################################
+    # fingerprint based block
+    #checks if the fingerprint is in the blocked list, if it does we will raise an ASM violation to block/respond 
+    set isBlockedFingerprint [table lookup -notouch -subtable BLOCKED_FINGERPRINT $fingerprint]
+    if {$isBlockedFingerprint > 0} {
+    #Fingerprint is in blocking list lets block
+    if {$static::debug > 0} {log local0. "Blocked request from fingerprint: $fingerprint time remaining: [table timeout -subtable BLOCKED_FINGERPRINT -remaining $fingerprint]"}
+    #HTTP::header insert Block $fingerprint
+    log local0. "in ASM_REQUEST_DONE"
+    ASM::raise "MaliciousFingerprint"
+    }
+    #################################################################################################################################
+}
+
+when ASM_RESPONSE_VIOLATION {
+
+    #################################################################################################################################
+    #failed login detection based on ASM data guard
+    if {$static::debug > 0} {log local0. "asm violation is [ASM::violation names]"}
+    #we are checking for response type violations, if we see the dataguard violation we configured  we will consider that a failed attempt 
+    if {([ASM::violation names] contains "VIOLATION_RESPONSE_SCRUBBING")&&!([ASM::violation names] contains "MaliciousFingerprint")} {
+    #failed login detected
+    #################################################################################################################################
+
+    #################################################################################################################################
+    # fingerprint based mitigation
+    if {$static::debug > 0} {log local0. "failed login from fingerprint: $fingerprint"}
+    set failedLoginsPerFingerprint [table lookup -notouch -subtable FAILED_LOGIN_FINGERPRINT $fingerprint]
+    #Do we already have a record for that fingerprint?
+    if {$failedLoginsPerFingerprint > 0} {
+            #We already have a record for that fingerprint we are incrementing the counter
+            table incr -notouch -subtable FAILED_LOGIN_FINGERPRINT $fingerprint
+            incr failedLoginsPerFingerprint
+            if {$static::debug > 0} {log local0. "failedLoginsPerFingerprint is: $failedLoginsPerFingerprint"}
+        #Is the number of failed attempts from that fingerprint exceed the maximum allowed? 
+        if { $static::maxFailedLoginFingerprintValue <= $failedLoginsPerFingerprint } {
+            #Fingerprint exceeded the maximum number of failed attempts, set a blocking flag in our blocking table 
+            if {$static::debug > 0} {log local0. "starting to Block fingerprint: $fingerprint"}
+            table set -subtable BLOCKED_FINGERPRINT $fingerprint 1 $static::blockingFingerprintPeriod
+            }
+    }
+    else {
+    #it's the first time we see that fingerprint failing so we will set a new table record for it
+    table set -subtable FAILED_LOGIN_FINGERPRINT $fingerprint 1 $static::failedLoginFingerprintTimeWindow
+    if {$static::debug > 0} {log local0. "failedLoginsPerFingerprint is: 1"}
+    }
+    }
+    #################################################################################################################################
+
+}
