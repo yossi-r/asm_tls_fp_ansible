@@ -13,51 +13,51 @@ while test $# -gt 0; do
                         echo "--today                   run the today playbook"
                         exit 0
                         ;;
-                -n)
+                -d)
                         shift
-                        ansible-playbook playbooks/onboarding.yml --ask-vault-pass -e @password.yml -vvv 
+                        ansible-playbook playbooks/deployment.yml -vvv
                         shift
                         ;;
-                --onboarding*)
-                        ansible-playbook playbooks/onboarding.yml --ask-vault-pass -e @password.yml -vvv 
+                --deployment*)
+                        ansible-playbook playbooks/deployment.yml -vvv
                         shift
                         ;;
                 -o)
-                        ansible-playbook playbooks/operations.yml --ask-vault-pass -e @password.yml -e state="present" -vvv 
+                        ansible-playbook playbooks/operations.yml --ask-vault-pass -e @password.yml -e state="present" -vvv
                         shift
                         ;;
                 --operation*)
-                        ansible-playbook playbooks/operations.yml --ask-vault-pass -e @password.yml -e state="present" -vvv 
+                        ansible-playbook playbooks/operations.yml --ask-vault-pass -e @password.yml -e state="present" -vvv
                         shift
                         ;;
                 -t)
-                        ansible-playbook playbooks/operations.yml --ask-vault-pass -e @password.yml -e state="absent" -vvv 
+                        ansible-playbook playbooks/operations.yml --ask-vault-pass -e @password.yml -e state="absent" -vvv
                         shift
                         ;;
                 --teardown*)
-                        ansible-playbook playbooks/operations.yml --ask-vault-pass -e @password.yml -e state="absent" -vvv 
+                        ansible-playbook playbooks/operations.yml --ask-vault-pass -e @password.yml -e state="absent" -vvv
                         shift
                         ;;
                 --today*)
-                        ansible-playbook playbooks/today.yml --ask-vault-pass -e @password.yml -vvv 
+                        ansible-playbook playbooks/today.yml --ask-vault-pass -e @password.yml -vvv
                         shift
                         ;;
                 -d)
-                        ansible-galaxy init roles/$(date +%m%d%Y) && cd roles; ln -sfn $(date +%m%d%Y) today;cd .. 
+                        ansible-galaxy init roles/$(date +%m%d%Y) && cd roles; ln -sfn $(date +%m%d%Y) today;cd ..
                         shift
                         ;;
                 --date*)
-                        ansible-galaxy init roles/$(date +%m%d%Y) && cd roles; ln -sfn $(date +%m%d%Y) today;cd .. 
+                        ansible-galaxy init roles/$(date +%m%d%Y) && cd roles; ln -sfn $(date +%m%d%Y) today;cd ..
                         shift
                         ;;
                 -a)
-                        ansible-playbook playbooks/onboarding.yml --ask-vault-pass -e @password.yml -vvv 
-                        ansible-playbook playbooks/operations.yml --ask-vault-pass -e @password.yml -e state="present" -vvv 
+                        ansible-playbook playbooks/onboarding.yml --ask-vault-pass -e @password.yml -vvv
+                        ansible-playbook playbooks/operations.yml --ask-vault-pass -e @password.yml -e state="present" -vvv
                         shift
                         ;;
                 --all*)
-                        ansible-playbook playbooks/onboarding.yml --ask-vault-pass -e @password.yml -vvv 
-                        ansible-playbook playbooks/operations.yml --ask-vault-pass -e @password.yml -e state="present" -vvv 
+                        ansible-playbook playbooks/onboarding.yml --ask-vault-pass -e @password.yml -vvv
+                        ansible-playbook playbooks/operations.yml --ask-vault-pass -e @password.yml -e state="present" -vvv
                         shift
                         ;;
                 *)

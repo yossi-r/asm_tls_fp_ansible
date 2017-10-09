@@ -1,3 +1,9 @@
 ---
 # defaults file for operations
+monitor_name: /Common/http
+bigip_mgmt_ip: 10.128.1.246
+vs_address: 10.128.10.44
+vs__ProfileClientSSL: /Common/f5DemoClientSSL
+vs__ProfileSecurityLogProfiles: logall
+
 ...

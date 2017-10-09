@@ -1,0 +1,4 @@
+---
+- include: aws_deploy_cft/deploy_aws_cft_f5_stack.yml
+  vars:
+    - Name: "f5_stack"

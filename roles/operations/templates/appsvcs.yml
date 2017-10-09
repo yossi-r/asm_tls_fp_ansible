@@ -19,7 +19,7 @@ tables:
   rows:
   - row:
     - '0'
-    - "/Common/http"
+    - "{{ monitor_name }}"
     - none
     - none
 - name: pool__Members
@@ -35,7 +35,7 @@ tables:
   rows:
   - row:
     - '0'
-    - 10.128.1.246
+    - "{{ bigip_mgmt_ip }}"
     - '443'
     - '0'
     - '1'
@@ -168,7 +168,7 @@ variables:
   encrypted: 'no'
 - name: pool__addr
   encrypted: 'no'
-  value: 10.128.10.44
+  value: "{{ vs_address }}"
 - name: pool__mask
   encrypted: 'no'
   value: 255.255.255.255
@@ -215,7 +215,7 @@ variables:
   encrypted: 'no'
   value: "/Common/tcp"
 - name: vs__ProfileClientSSL
-  value: "/Common/f5DemoClientSSL"
+  value: "{{ vs__ProfileClientSSL }}"
   encrypted: 'no'
 - name: vs__ProfileClientSSLAdvOptions
   value: ''
@@ -263,7 +263,7 @@ variables:
   encrypted: 'no'
   value: none
 - name: vs__ProfileSecurityLogProfiles
-  value: "/Common/logall"
+  value: "{{ vs__ProfileSecurityLogProfiles }}"
   encrypted: 'no'
 - name: vs__ProfileServerProtocol
   value: ''

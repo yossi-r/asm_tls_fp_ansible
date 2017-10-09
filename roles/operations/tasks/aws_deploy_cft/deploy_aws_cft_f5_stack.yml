@@ -1,0 +1,17 @@
+# Use a template from a URL
+- name: launch f5-full-stack-across-az-cluster-hourly-2nic-bigip.template
+  cloudformation:
+    stack_name: "f5-full-stack-across-az-cluster-hourly-2nic-bigip"
+    state: present
+    region: us-west-2
+    disable_rollback: true
+    template: "files/cloudformation-example.json"
+  args:
+    template_parameters:
+      Name: f5_stack
+      availabilityZone1: us-west-2a
+      availabilityZone2: us-west-2b
+      imageName: Best25Mbps
+      sshKey: f5_aws_stack_ansible
+      restrictedSrcAddressApp: 0.0.0.0/0
+      restrictedSrcAddress: 0.0.0.0/0
