@@ -2,5 +2,5 @@
   - hosts: all
     gather_facts: False
     roles:
-      - deployment
+      - testing
 ...

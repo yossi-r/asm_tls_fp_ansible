@@ -1,0 +1,6 @@
+---
+############
+#Add objects
+############
+- include: testing/run_cred_stuff.yml
+  when: state == "present"
