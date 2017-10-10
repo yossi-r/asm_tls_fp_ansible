@@ -2,11 +2,18 @@
 ############
 #Add objects
 ############
+- include: bigip_iapp_service/set_fact_from_tag.yml
+  when: state == "present"
+  tags: [protection]
+
 - include: bigip_iapp_template/appsvcs.yml
   when: state == "present"
+  tags: [templates, api_vip_protect]
+  
 
-- include: bigip_iapp_service/appsvcs.yml
+- include: bigip_iapp_service/api_vip_protect.yml
   when: state == "present"
+  tags: [api_vip_protect]
 
 ###############
 #Remove objects

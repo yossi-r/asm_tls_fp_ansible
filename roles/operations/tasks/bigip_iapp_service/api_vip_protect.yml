@@ -1,0 +1,15 @@
+---
+- include_vars: api_vip_protect_vars.yml
+  when: protection == true
+- name: Configure a appsvcs iapp service using parameters in JSON document
+  bigip_iapp_service:
+    name: "asm_tls_fp"
+    user: "{{ username }}"
+    password: "{{ password }}"
+    server: "{{ inventory_hostname }}"
+    template: "appsvcs_integration_v2.0.003"
+    validate_certs: "false"
+    state: "{{ state }}"
+    parameters: "{{ lookup('template', 'appsvcs.yml')|from_yaml }}"
+  delegate_to: localhost
+...

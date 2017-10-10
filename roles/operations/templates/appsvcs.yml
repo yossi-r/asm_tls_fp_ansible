@@ -93,7 +93,7 @@ tables:
   - row:
     - asm:url=https://raw.githubusercontent.com/yossi-r/asm_tls_fp_ansible/master/roles/operations/files/remote_asm1.xml
   - row:
-    - irule:url=https://raw.githubusercontent.com/yossi-r/asm_tls_fp_ansible/master/roles/operations/files/irules/credstuff.irule
+    - irule:"{{ irule_string }}"
 - name: vs__Listeners
   columnNames:
   - Listener
