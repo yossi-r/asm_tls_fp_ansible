@@ -91,9 +91,9 @@ tables:
   - Resource
   rows:
   - row:
-    - asm:"{{ asm_policy_location }}"
+    - asm:{{ asm_policy_location }}
   - row:
-    - irule:url="{{ irule_location }}""{{ irule_string }}"
+    - irule:url={{ irule_location }}{{ irule_string }}
 - name: vs__Listeners
   columnNames:
   - Listener

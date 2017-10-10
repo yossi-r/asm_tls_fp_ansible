@@ -3,7 +3,7 @@
   when: protection == true
 - name: Configure a appsvcs iapp service using parameters in JSON document
   bigip_iapp_service:
-    name: "asm_tls_fp"
+    name: "asm_tls_fp_protection"
     user: "{{ username }}"
     password: "{{ password }}"
     server: "{{ inventory_hostname }}"

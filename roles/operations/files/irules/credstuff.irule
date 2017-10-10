@@ -1,6 +1,7 @@
 when RULE_INIT {
 
     #################################################################################################################################
+	# TEST
     #Global variables assigment 
     #debug level, 0 - disabled , 1 - debug , 2 - verbose debug
     set static::debug 1
