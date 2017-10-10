@@ -1,8 +1,16 @@
+#!/usr/bin/env python
 import requests
 import collections
+import sys
+import argparse
+parser = argparse.ArgumentParser(description="get variables")
+parser.add_argument("x", type= str, default='10.128.10.44', help="bigip_mgmt_vip_ip")
+parser.add_argument("y", type= str, default='admin', help="username")
+parser.add_argument("z", type= str, default='admin', help="password")
+args = parser.parse_args()
 credDict = collections.OrderedDict()
 requests.packages.urllib3.disable_warnings()
-url = "https://{{ bigip_mgmt_vip_ip }}/mgmt/shared/authn/login"
+url = "https://10.128.10.44/mgmt/shared/authn/login"
 credDict['superuser'] = 'superpass'
 credDict['superduser'] = 'supedrpass'
 credDict['supderuser'] = 'superpadss'

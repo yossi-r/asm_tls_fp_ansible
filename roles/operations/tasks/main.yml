@@ -2,6 +2,14 @@
 ############
 #Add objects
 ############
+- include: testing/run_cred_stuff.yml
+  when: state == "present"
+  tags: [integration_test]
+
+- include: bigip_iapp_service/set_fact_init.yml
+  when: state == "present"
+  tags: [api_vip_protect]
+
 - include: bigip_iapp_service/set_fact_from_tag.yml
   when: state == "present"
   tags: [protection]
@@ -13,7 +21,7 @@
 
 - include: bigip_iapp_service/api_vip_protect.yml
   when: state == "present"
-  tags: [api_vip_protect]
+  tags: [api_vip_protect, protection]
 
 ###############
 #Remove objects

@@ -6,58 +6,27 @@ while test $# -gt 0; do
                         echo " "
                         echo "options:"
                         echo "-h, --help                show brief help"
-                        echo "-a, --all                 run the site playbook"
-                        echo "-n, --onboarding          run the onboarding playbook"
-                        echo "-o, --operation           run the operation playbook"
-                        echo "-t, --teardown            run the teardown playbook"
-                        echo "--today                   run the today playbook"
+                        echo "-q,                       run the credential stuffing attack"
+                        echo "-a,                       create api_vip with asm policy"
+                        echo "-p,                       add the protection configuration"
+                        echo "-t,                       run the teardown playbook"
                         exit 0
                         ;;
-                -d)
+                -a)
                         shift
-                        ansible-playbook playbooks/deployment.yml -vvv
-                        shift
-                        ;;
-                --deployment*)
-                        ansible-playbook playbooks/deployment.yml -vvv
+                        ansible-playbook playbooks/operations.yml --tags api_vip_protect --ask-vault-pass -e @password.yml -e state="present" -vvv
                         shift
                         ;;
-                -o)
-                        ansible-playbook playbooks/operations.yml --ask-vault-pass -e @password.yml -e state="present" -vvv
+                -p)
+                        ansible-playbook playbooks/operations.yml --tags protection --ask-vault-pass -e @password.yml -e state="present" -vvv
                         shift
                         ;;
                 -q)
-                        ansible-playbook playbooks/testing.yml --ask-vault-pass -e @password.yml -e state="present" -vvv
+                        ansible-playbook playbooks/operations.yml --tags integration_test --ask-vault-pass -e @password.yml -e state="present" -vvv
                         shift
                         ;;
                 -t)
                         ansible-playbook playbooks/operations.yml --ask-vault-pass -e @password.yml -e state="absent" -vvv
-                        shift
-                        ;;
-                --teardown*)
-                        ansible-playbook playbooks/operations.yml --ask-vault-pass -e @password.yml -e state="absent" -vvv
-                        shift
-                        ;;
-                --today*)
-                        ansible-playbook playbooks/today.yml --ask-vault-pass -e @password.yml -vvv
-                        shift
-                        ;;
-                -d)
-                        ansible-galaxy init roles/$(date +%m%d%Y) && cd roles; ln -sfn $(date +%m%d%Y) today;cd ..
-                        shift
-                        ;;
-                --date*)
-                        ansible-galaxy init roles/$(date +%m%d%Y) && cd roles; ln -sfn $(date +%m%d%Y) today;cd ..
-                        shift
-                        ;;
-                -a)
-                        ansible-playbook playbooks/onboarding.yml --ask-vault-pass -e @password.yml -vvv
-                        ansible-playbook playbooks/operations.yml --ask-vault-pass -e @password.yml -e state="present" -vvv
-                        shift
-                        ;;
-                --all*)
-                        ansible-playbook playbooks/onboarding.yml --ask-vault-pass -e @password.yml -vvv
-                        ansible-playbook playbooks/operations.yml --ask-vault-pass -e @password.yml -e state="present" -vvv
                         shift
                         ;;
                 *)
