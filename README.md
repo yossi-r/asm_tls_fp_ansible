@@ -55,14 +55,10 @@ Step by step:
 
 Like mentioned earlier we need to create a policy which will trigger a violation for ANY failed login. that violation will not block anything but we will use it to monitor the amount of times an identity failed to authenticate.
 
-1.
-  1.
-    - If you have session awareness enabled, make sure you disable that violation there.
+  - If you have session awareness enabled, make sure you disable that violation there.
 
 We will create a data guard policy that will catch the server response of a failed login and raise a violation.
-
-1.
-  1. Either based on static threshold or a significant increase should trigger mitigations.
+Either based on static threshold or a significant increase should trigger mitigations.
 
 With this solution we are using static threshold that is set as a variable in the irule.
 
