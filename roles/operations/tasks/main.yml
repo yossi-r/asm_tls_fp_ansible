@@ -21,7 +21,7 @@
 
 - include: bigip_iapp_service/api_vip_protect.yml
   when: state == "present"
-  tags: [api_vip_protect, protection]
+  tags: [protection, api_vip_protect]
 
 ###############
 #Remove objects
