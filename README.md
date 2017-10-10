@@ -67,11 +67,11 @@ We will create a data guard policy that will catch the server response of a fail
 With this solution we are using static threshold that is set as a variable in the irule.
 
 1. Identify an entity that&#39;s causing the attack
-  1. Count the number of failed logins for each fingerprint
-  2. Mark the entity that crossed the detection threshold
+  Count the number of failed logins for each fingerprint
+  Mark the entity that crossed the detection threshold
 
 1. Block the entity
-  1. Based on the blocked entities table in the irule we raise a custom ASM violation that will block the request.
+  Based on the blocked entities table in the irule we raise a custom ASM violation that will block the request.
 
 **This Demo**
 
@@ -86,7 +86,6 @@ The demo Diagram:
 
 ![image_001](/misc/images/demo_diagram.png)
 ### **Order of Operations**
-
 - --TEST vulnerability – Run script (./run\_ansible.sh -q)
 - --Deploy protection – Run script (./run\_ansible.sh -o)
 - --TEST that the vulnerability is mitigated – Run script (./run\_ansible.sh -q)
@@ -104,41 +103,25 @@ For F5 Engineers a UDF  **2.0**  Blueprint has been created, the main.yml, hosts
 5. After you are on the Windows Host open application Putty (Located on the Task Bar)
 6. From the Putty window connect to the Docker Host (Credentials are ubuntu no password)
 
+
+
 ### **Using the MVP Image**
 
-1. Within the Docker Host is a staged user\_repos.json file, located in the home directory (/home/ubuntu/user\_repos.json) of your ubuntu user.  **You must modify the staged user\_repos.json to reflect the below.**   [VI](https://www.cs.colostate.edu/helpdocs/vi.html) is installed on the Docker Host for you, and works as expected.
-
-{
-
-        &quot;repos&quot;: [
-
-                {
-
-                        &quot;name&quot;:&quot;asm\_tls\_fp\_ansible&quot;,
-
-                        &quot;repo&quot;:&quot;https://github.com/yossi-r/asm\_tls\_fp\_ansible.git&quot;,
-
-                        &quot;branch&quot;:&quot;master&quot;,
-
-                        &quot;skip&quot;:false,
-
-                        &quot;skipinstall&quot;:true
-
-                }
-
-        ]
-
-}
-
 1. Launch the container with the command below from the shell window of the Docker Host
-
-sudo docker run -p 8080:80 -p 2222:22 --rm -it -v &quot;/home/ubuntu/user\_repos.json:/tmp/user\_repos.json&quot; -e SNOPS\_GH\_BRANCH=master f5devcentral/f5-super-netops-container:ansible
+sudo docker run -p 8080:80 -p 2222:22 --rm -it -e SNOPS\_GH\_BRANCH=master f5devcentral/f5-super-netops-container:ansible
 
 The exposed ports on the Super NetOps Container are used to interact with the solution; though the Super NetOps Container does have an exposed SSH port, we&#39;ll use the dropped into shell to run the MVP. More information on the Super NetOps Container can be found in  [F5 Programmability Lab Class 2 - Super-NetOps-Container](http://clouddocs.f5.com/training/community/programmability/html/class2/class2.html) &amp;  [F5 Docker Hub](https://hub.docker.com/r/f5devcentral/f5-super-netops-container/)
 
+
 1. After the successful launch of the Super NetOps Container you should be dropped into its shell:
-2. Change directory to the user\_repos.json mapped Repository cd /home/snops/Ansible\_Meetups
-3. Open Chrome from the Windows Host and validate the LAMP bookmark does not load, also verify via the BIG-IP A bookmark (Credentials admin/password) the configuration is blank, no objects exist yet
+2. clone the repo - https://github.com/yossi-r/asm_tls_fp_ansible.git
+
+**Updating the paramters:**
+asm_tls_fp_ansible/roles/operations/defaults/main.yml
+asm_tls_fp_ansible/roles/testing/defaults/main.yml
+asm_tls_fp_ansible/blob/master/hosts
+
+3. run the 
 4. Return to the MVP and run the Ansible  **operations**  Playbook with Helper Script ./run\_ansible.sh -o
 5. Enter the Ansible-Vault password password
 6. Verify the Ansible Run success
