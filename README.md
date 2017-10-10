@@ -84,6 +84,7 @@ We are using the bigip as the victim and the protector, the bigip token auth RES
 
 The demo Diagram:
 
+![image_001](/misc/images/demo_diagram.png)
 ### **Order of Operations**
 
 - --TEST vulnerability – Run script (./run\_ansible.sh -q)
