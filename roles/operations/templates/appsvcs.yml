@@ -91,9 +91,9 @@ tables:
   - Resource
   rows:
   - row:
-    - asm:url=https://raw.githubusercontent.com/yossi-r/asm_tls_fp_ansible/master/roles/operations/files/remote_asm1.xml
+    - asm:"{{ asm_policy_location }}"
   - row:
-    - irule:"{{ irule_string }}"
+    - irule:url="{{ irule_location }}""{{ irule_string }}"
 - name: vs__Listeners
   columnNames:
   - Listener

@@ -1,5 +1,5 @@
 ---
 # vars file for the api_vip_protect.yml task
-irule_string: url=https://raw.githubusercontent.com/yossi-r/asm_tls_fp_ansible/master/roles/operations/files/irules/credstuff.irule
+irule_string: credstuff.irule
 ...
 
