@@ -82,31 +82,34 @@ The demo Diagram:
 
 ![image_001](/misc/images/demo_diagram.png)
 ### **Order of Operations**
-- --Deploy api_vip – Run script (./run\_ansible.sh -a)
-- --TEST vulnerability – Run script (./run\_ansible.sh -q)
-- --Deploy protection – Run script (./run\_ansible.sh -p)
-- --TEST that the vulnerability is mitigated – Run script (./run\_ansible.sh -q)
+- Deploy api_vip – Run script (./run\_ansible.sh -a)
+- TEST vulnerability – Run script (./run\_ansible.sh -q)
+- Deploy protection – Run script (./run\_ansible.sh -p)
+- TEST that the vulnerability is mitigated – Run script (./run\_ansible.sh -q)
 
 ## **Running the Demo**
 
 ### **Staging the Environment**
 
 1. login to the Super-NetOps-Container-ansible (More info under the tools section below)
+------------------------------------------------------------------------------------------
 2. clone this repo: "git clone https://github.com/yossi-r/asm_tls_fp_ansible.git"
+------------------------------------------------------------------------------------------
 3. go into the repo library 
+------------------------------------------------------------------------------------------
 4. **Update the paramters:**
   - asm_tls_fp_ansible/roles/operations/defaults/main.yml
   - asm_tls_fp_ansible/hosts
+------------------------------------------------------------------------------------------
 5. run the script:
 - Deploy api_vip – Run script (./run\_ansible.sh -a)
 - deploys the appservices template and an appservices service to expose the bigip mgmt API 
-------------------------------------------------------------------------------------------
 - TEST vulnerability – Run script (./run\_ansible.sh -q)
     - sends credstuff attack to the published api_vip
     - check "tailf /var/log/restjavad.0.log" on the bigip and look for the failed/success attempts
-- --Deploy protection – Run script (./run\_ansible.sh -p)
+- Deploy protection – Run script (./run\_ansible.sh -p)
     - adds the fingerprint irule protection 
-- --TEST that the vulnerability is mitigated – Run script (./run\_ansible.sh -q)
+- TEST that the vulnerability is mitigated – Run script (./run\_ansible.sh -q)
     - sends credstuff attack to the published api_vip
     - check "tailf /var/log/restjavad.0.log" on the bigip and look for the failed/success attempts
     - check ASM event logs and look for the blocked attacks, examine the HTTP request and look for the fingerprint value in the HTTP header
