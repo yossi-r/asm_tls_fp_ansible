@@ -90,10 +90,11 @@ The demo Diagram:
 ## **Running the Demo**
 
 ### **Staging the Environment**
-
+0. fork repo to your own account, that way you can change configuration and test.
+------------------------------------------------------------------------------------------
 1. login to the Super-NetOps-Container-ansible (More info under the tools section below)
 ------------------------------------------------------------------------------------------
-2. clone this repo: "git clone https://github.com/yossi-r/asm_tls_fp_ansible.git"
+2. clone this repo: "git clone https://github.com/{{name of account}}/asm_tls_fp_ansible.git"
 ------------------------------------------------------------------------------------------
 3. go into the repo library 
 ------------------------------------------------------------------------------------------
@@ -113,6 +114,11 @@ The demo Diagram:
     - sends credstuff attack to the published api_vip
     - check "tailf /var/log/restjavad.0.log" on the bigip and look for the failed/success attempts
     - check ASM event logs and look for the blocked attacks, examine the HTTP request and look for the fingerprint value in the HTTP header
+
+------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------
+Change configuration and test 
+
 
 
 
