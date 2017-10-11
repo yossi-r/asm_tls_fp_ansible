@@ -91,13 +91,12 @@ The demo Diagram:
 
 ### **Staging the Environment**
 
-1. login to the Super-NetOps-Container-ansible (More information on the Super NetOps Container can be found in  [F5 Programmability Lab Class 2 - Super-NetOps-Container](http://clouddocs.f5.com/training/community/programmability/html/class2/class2.html) &amp;  [F5 Docker Hub](https://hub.docker.com/r/f5devcentral/f5-super-netops-container/)
-
-2. clone this repo: git clone https://github.com/yossi-r/asm_tls_fp_ansible.git
+1. login to the Super-NetOps-Container-ansible (More info under the tools section below)
+2. clone this repo: "git clone https://github.com/yossi-r/asm_tls_fp_ansible.git"
 3. go into the repo library 
 4. **Update the paramters:**
-asm_tls_fp_ansible/roles/operations/defaults/main.yml
-asm_tls_fp_ansible/hosts
+  - asm_tls_fp_ansible/roles/operations/defaults/main.yml
+  - asm_tls_fp_ansible/hosts
 5. run the script:
 - --Deploy api_vip – Run script (./run\_ansible.sh -a)
 - --TEST vulnerability – Run script (./run\_ansible.sh -q)
@@ -119,37 +118,6 @@ F5 has created an MVP solution for getting up and running with Ansible and BIG-I
 
 The Super NetOps Container Variant (Ansible) we will be working with can be viewed on  [Docker Hub](https://hub.docker.com/r/f5devcentral/f5-super-netops-container/)
 
-
-
-## **Important Files within the MVP**
-
-### **user\_repos.json File**
-
-The user\_repos.json file is used to dynamically pull down whatever Github repository is specified in its json body. Utilizing this enables Continuously Delivery of new content every time the container is started, or the repositories are refreshed. This also allows you to specify your own downloaded/forked/cloned repository for use against your custom environment.
-
-{
-
-        &quot;repos&quot;: [
-
-                {
-
-                        &quot;name&quot;:&quot; asm\_tls\_fp\_ansible &quot;,
-
-                        &quot;repo&quot;:&quot;https://github.com/yossi-r/asm\_tls\_fp\_ansible.git&quot;,
-
-                        &quot;branch&quot;:&quot;master&quot;,
-
-                        &quot;skip&quot;:false,
-
-                        &quot;skipinstall&quot;:true
-
-                }
-
-        ]
-
-}
-
-[user\_repos.json](https://github.com/jmcalalang/Ansible_Meetups/blob/master/misc/user_repos.json)
 
 ### **Ansible Vault**
 
