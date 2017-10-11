@@ -82,50 +82,28 @@ The demo Diagram:
 
 ![image_001](/misc/images/demo_diagram.png)
 ### **Order of Operations**
+- --Deploy api_vip – Run script (./run\_ansible.sh -a)
 - --TEST vulnerability – Run script (./run\_ansible.sh -q)
-- --Deploy protection – Run script (./run\_ansible.sh -o)
+- --Deploy protection – Run script (./run\_ansible.sh -p)
 - --TEST that the vulnerability is mitigated – Run script (./run\_ansible.sh -q)
 
 ## **Running the Demo**
 
 ### **Staging the Environment**
 
-For F5 Engineers a UDF  **2.0**  Blueprint has been created, the main.yml, hosts, password.yml have all been configured to use UDF, you will need to modify the user\_repos.json file, as this UDF Blueprint is used for several different solutions. If you are running this demo from another environment you will need to update all these files respectively.
+1. login to the Super-NetOps-Container-ansible (More information on the Super NetOps Container can be found in  [F5 Programmability Lab Class 2 - Super-NetOps-Container](http://clouddocs.f5.com/training/community/programmability/html/class2/class2.html) &amp;  [F5 Docker Hub](https://hub.docker.com/r/f5devcentral/f5-super-netops-container/)
 
-1. Login to UDF via Federate
-2. Deploy UDF Blueprint &quot;F5 Super-NetOps &amp; Ansible MVP&quot;
-3. Once deployed, make sure you start all VM&#39;s
-4. Login to the Windows Host via RDP (Credentials are user/user)
-5. After you are on the Windows Host open application Putty (Located on the Task Bar)
-6. From the Putty window connect to the Docker Host (Credentials are ubuntu no password)
-
-
-
-### **Using the MVP Image**
-
-1. Launch the container with the command below from the shell window of the Docker Host
-sudo docker run -p 8080:80 -p 2222:22 --rm -it -e SNOPS\_GH\_BRANCH=master f5devcentral/f5-super-netops-container:ansible
-
-The exposed ports on the Super NetOps Container are used to interact with the solution; though the Super NetOps Container does have an exposed SSH port, we&#39;ll use the dropped into shell to run the MVP. More information on the Super NetOps Container can be found in  [F5 Programmability Lab Class 2 - Super-NetOps-Container](http://clouddocs.f5.com/training/community/programmability/html/class2/class2.html) &amp;  [F5 Docker Hub](https://hub.docker.com/r/f5devcentral/f5-super-netops-container/)
-
-
-1. After the successful launch of the Super NetOps Container you should be dropped into its shell:
-2. clone the repo - https://github.com/yossi-r/asm_tls_fp_ansible.git
-
-**Updating the paramters:**
+2. clone this repo: git clone https://github.com/yossi-r/asm_tls_fp_ansible.git
+3. go into the repo library 
+4. **Update the paramters:**
 asm_tls_fp_ansible/roles/operations/defaults/main.yml
-asm_tls_fp_ansible/roles/testing/defaults/main.yml
-asm_tls_fp_ansible/blob/master/hosts
+asm_tls_fp_ansible/hosts
+5. run the script:
+- --Deploy api_vip – Run script (./run\_ansible.sh -a)
+- --TEST vulnerability – Run script (./run\_ansible.sh -q)
+- --Deploy protection – Run script (./run\_ansible.sh -p)
+- --TEST that the vulnerability is mitigated – Run script (./run\_ansible.sh -q)
 
-3. run the 
-4. Return to the MVP and run the Ansible  **operations**  Playbook with Helper Script ./run\_ansible.sh -o
-5. Enter the Ansible-Vault password password
-6. Verify the Ansible Run success
-7. Run the Ansible  **operations**  Teardown Playbook with Helper Script ./run\_ansible.sh -t
-8. Enter the Ansible-Vault password password
-9. Verify the Ansible Run success
-10. Check BIG-IP A via the GUI for the removed objects and iApp
-11. Demo complete, eat Cake.
 
 
 
@@ -181,18 +159,6 @@ ansible-vault edit password.yml
 
 The Ansible-Vault password for the password.yml file is  **password**
 
-### **hosts File**
 
-The hosts file is used as a list of Ansible Inventory, in our case the MVP is configured to execute on only a single specified host, changing this file to reflect your Inventory will allow you to run this demonstration against your environment
 
-[BIG-IPA]
 
-10.1.1.6
-
-[hosts](https://github.com/jmcalalang/Ansible_Meetups/blob/master/hosts)
-
-### **main.yml File**
-
-This file contains the variables used in the various Ansible scripts we will be executing, changing the variables in this file reflect what Ansible will deploy to a BIG-IP, for custom environments this  **will need**  to be modified. In the MVP, there are currently main.yml files for every playbook; our demo  **operations**  playbook will utilize an already configured one to create things like Nodes/Pools and Virtual Servers.
-
-[main.yml](https://github.com/jmcalalang/Ansible_Meetups/blob/master/roles/operations/tasks/main.yml)
