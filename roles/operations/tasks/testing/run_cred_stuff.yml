@@ -1,5 +1,5 @@
 - name: run the testing script
-  command: python "{{ role_path }}"/templates/credStuffTest.py {{ bigip_mgmt_vip_ip }} {{ username }} {{ password }}
+  command: python "{{ role_path }}"/templates/credStuffTest.py {{ vs_address }} {{ username }} {{ password }}
   register: out
   delegate_to: 127.0.0.1
   run_once: true

@@ -8,14 +8,15 @@ parser.add_argument("x", type= str, default='10.128.10.44', help="bigip_mgmt_vip
 parser.add_argument("y", type= str, default='admin', help="username")
 parser.add_argument("z", type= str, default='admin', help="password")
 args = parser.parse_args()
+
 credDict = collections.OrderedDict()
 requests.packages.urllib3.disable_warnings()
-url = "https://10.128.10.44/mgmt/shared/authn/login"
+url = "https://" + args.x + "/mgmt/shared/authn/login"
 credDict['superuser'] = 'superpass'
 credDict['superduser'] = 'supedrpass'
 credDict['supderuser'] = 'superpadss'
 credDict['superduser'] = 'supderpass'
-credDict['admin'] = 'admin'
+credDict[args.y] = args.z
 for key, value in credDict.iteritems():
         payload = "{\n  \"username\": " + key +",\n  \"password\": " + value + ",\n  \"loginProvidername\":\"tmos\"\n}\n"
         headers = {

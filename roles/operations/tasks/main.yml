@@ -26,8 +26,10 @@
 ###############
 #Remove objects
 ###############
-
-- include: bigip_iapp_service/appsvcs.yml
+- include: bigip_iapp_service/set_fact_init.yml
+  when: state == "absent"
+  
+- include: bigip_iapp_service/api_vip_protect.yml
   when: state == "absent"
 
 - include: bigip_iapp_template/appsvcs.yml
