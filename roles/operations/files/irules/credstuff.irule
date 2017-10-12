@@ -4,7 +4,7 @@ when RULE_INIT {
 	# TEST
     #Global variables assigment 
     #debug level, 0 - disabled , 1 - debug , 2 - verbose debug
-    set static::debug 1
+    set static::debug 2
     #The content of the HTTP response we send back in response to malicious request
     set static::blocked_response "username and password incorrect"
     #################################################################################################################################
@@ -133,6 +133,55 @@ when ASM_RESPONSE_VIOLATION {
     }
     #################################################################################################################################
 
+}
+
+when ASM_REQUEST_BLOCKING { 
+  set x [ASM::violation_data]
+  #marker bit to handle header change
+  set activeViolation 1
+  for {set i 0} { $i < 7 } {incr i} {
+      switch $i {
+      0         { log local0. "violation=[lindex $x $i]" }
+      1         { log local0. "support_id=[lindex $x $i]" }
+      2         { log local0. "web_application=[lindex $x $i]" }
+      3         { log local0. "severity=[lindex $x $i]" }
+      4         { log local0. "source_ip=[lindex $x $i]" }
+      5         { log local0. "attack_type=[lindex $x $i]" }
+      6         { log local0. "request_status=[lindex $x $i]" }
+
+   }
+   }
+
+
+   if {([lindex $x 0] contains "MaliciousFingerprint")} {
+      if {$static::debug > 1} {log local0. "MaliciousFingerprint VIOLATIOND detected, let's customized reject page"}
+      #this really does not work like this
+      #HTTP::header insert com.f5.rest.common.RestRequestSender
+      #HTTP::header insert header_1 value_1
+      set response "\{\"code\":401,\"message\":\"Authentication failed.\",\"originalRequestBody\":\"\{\"username\":\"ddfsf\",\"generation\":0,\"lastUpdateMicros\":0\}\",\"referer\":\"10.128.10.111, 10.128.1.1\",\"restOperationId\":1217790,\"kind\":\":resterrorresponse\"\}"
+      ASM::payload replace 0 [ASM::payload length] ""
+      ASM::payload replace 0 0 $response
+      }   
+  
+}
+
+
+when HTTP_RESPONSE_RELEASE {
+
+   catch {
+       #make sure  ssl fingerprint header isn't sent back 
+       HTTP::header remove sslFingerprint
+   }
+   
+   #catch for error if variable does not exist (no previous event ASM_REQUEST_BLOCKING)
+   catch {
+       #do only if  previous was event ASM_REQUEST_BLOCKING
+       if { $activeViolation } {
+           #modify respose header
+           #HTTP::header remove Content-Length
+           HTTP::header insert server com.f5.rest.common.RestRequestSender
+       }
+   }
 }
 
 

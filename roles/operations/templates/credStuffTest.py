@@ -13,9 +13,9 @@ credDict = collections.OrderedDict()
 requests.packages.urllib3.disable_warnings()
 url = "https://" + args.x + "/mgmt/shared/authn/login"
 credDict['superuser'] = 'superpass'
-credDict['superduser'] = 'supedrpass'
-credDict['supderuser'] = 'superpadss'
-credDict['superduser'] = 'supderpass'
+credDict['root'] = 'supedrpass'
+credDict['f5'] = 'superpadss'
+credDict['administrator'] = 'supderpass'
 credDict[args.y] = args.z
 for key, value in credDict.iteritems():
         payload = "{\n  \"username\": " + key +",\n  \"password\": " + value + ",\n  \"loginProvidername\":\"tmos\"\n}\n"
