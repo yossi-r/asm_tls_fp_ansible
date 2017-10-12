@@ -114,7 +114,7 @@ variables:
   value: auto
 - name: feature__insertXForwardedFor
   encrypted: 'no'
-  value: auto
+  value: disabled
 - name: feature__redirectToHTTPS
   encrypted: 'no'
   value: auto
@@ -245,7 +245,7 @@ variables:
   value: ''
   encrypted: 'no'
 - name: vs__ProfileHTTP
-  value: "/Common/http"
+  value: "{{ vs__ProfileHTTP }}"
   encrypted: 'no'
 - name: vs__ProfileOneConnect
   value: ''
