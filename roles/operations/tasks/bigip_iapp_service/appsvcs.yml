@@ -5,7 +5,7 @@
     user: "{{ username }}"
     password: "{{ password }}"
     server: "{{ inventory_hostname }}"
-    template: "appsvcs_integration_v2.0.003"
+    template: "appsvcs_integration_v2.0.004"
     validate_certs: "false"
     state: "{{ state }}"
     parameters: "{{ lookup('template', 'appsvcs.yml')|from_yaml }}"
