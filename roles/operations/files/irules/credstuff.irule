@@ -6,7 +6,6 @@ when RULE_INIT {
     #debug level, 0 - disabled , 1 - debug , 2 - verbose debug
     set static::debug 2
     #The content of the HTTP response we send back in response to malicious request
-    set static::blocked_response "\{\"code\":401,\"message\":\"Authentication failed.\",\"originalRequestBody\":\"\{\"username\":\"ddfsf\",\"generation\":0,\"lastUpdateMicros\":0\}\",\"referer\":\"10.128.10.111, 10.128.1.1\",\"restOperationId\":1217790,\"kind\":\":resterrorresponse\"\}"
     #################################################################################################################################
 
     #################################################################################################################################
@@ -93,7 +92,10 @@ when ASM_REQUEST_DONE {
     if {$static::debug > 0} {log local0. "Blocked request from fingerprint: $fingerprint time remaining: [table timeout -subtable BLOCKED_FINGERPRINT -remaining $fingerprint]"}
     #HTTP::header insert Block $fingerprint
     ASM::raise "MaliciousFingerprint"
+    #setting username to be used in the blocking page
+    catch {
     set username [call GetJsonValue [ASM::payload] "username"]
+    }
     if {$static::debug > 0} {log local0. "username is $username"}
     }
     #################################################################################################################################
@@ -150,6 +152,7 @@ when ASM_REQUEST_BLOCKING {
       #set blocked response with the username that was originally sent 
       set response "\{\"code\":401,\"message\":\"Authentication failed.\",\"originalRequestBody\":\"\{\"username\":\"$username\",\"generation\":0,\"lastUpdateMicros\":0\}\",\"referer\":\"10.128.10.111, 10.128.1.1\",\"restOperationId\":1217790,\"kind\":\":resterrorresponse\"\}"
       set decoyResponse "\{\"username\":\"$username\",\"loginReference\":\{\"link\":\"https://localhost/mgmt/cm/system/authn/providers/local/login\"\},\"loginProviderName\":\"local\",\"token\":\{\"token\":\"LKJDS3RXDBGTAFKXSOTMRK5X6H\",\"name\":\"LKJDS3RXDBGTAFKXSOTMRK5X6H\",\"userName\":\"$username\",\"authProviderName\":\"local\",\"user\":\{\"link\":\"https://localhost/mgmt/shared/authz/users/$username\"\},\"groupReferences\":\[\],\"timeout\":1200,\"startTime\":\"2017-10-16T22:06:30.029+0300\",\"address\":\"10.128.1.1\",\"partition\":\"\[All\]\",\"generation\":1,\"lastUpdateMicros\":1508180790028607,\"expirationMicros\":1508181990029000,\"kind\":\"shared:authz:tokens:authtokenitemstate\",\"selfLink\":\"https://localhost/mgmt/shared/authz/tokens/LKJDS3RXDBGTAFKXSOTMRK5X6H\"\},\"generation\":0,\"lastUpdateMicros\":0\}"
+      #use random function to send a decoy response for some of the requests
       if {[expr int(rand()*10)] eq 5} {
       ASM::payload replace 0 0 $decoyResponse
       }

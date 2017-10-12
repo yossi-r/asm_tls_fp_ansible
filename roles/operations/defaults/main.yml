@@ -1,5 +1,6 @@
 ---
 # defaults file for operations
+protection_app_name: asm_fp_p
 monitor_name: /Common/http
 bigip_mgmt_ip: 10.128.1.247
 vs_address: 10.128.10.61
