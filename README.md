@@ -96,6 +96,7 @@ The demo Diagram:
 4. **Update the paramters:**
   - vim roles/operations/defaults/main.yml
   - vim hosts
+  - ansible-vault edit password.yml
 ------------------------------------------------------------------------------------------
 5. run the script:
 - Deploy api_vip – Run script (./run\_ansible.sh -a) vault password: password
