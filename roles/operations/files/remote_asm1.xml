@@ -17,7 +17,7 @@
   <protocol_free>false</protocol_free>
   <path_parameter_handling>as parameters</path_parameter_handling>
   <mask_sensitive>true</mask_sensitive>
-  <trust_xff>false</trust_xff>
+  <trust_xff>true</trust_xff>
   <csrf>
     <enabled>false</enabled>
     <ssl_only>false</ssl_only>
