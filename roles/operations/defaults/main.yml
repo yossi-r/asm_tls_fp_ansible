@@ -7,7 +7,7 @@ vs_address: 10.128.10.61
 vs__ProfileClientSSL: /Common/f5DemoClientSSL
 vs__ProfileSecurityLogProfiles: logall
 vs__ProfileHTTP: /Common/http
-irule_location: https://raw.githubusercontent.com/yossi-r/asm_tls_fp_ansible/v1/roles/operations/files/irules/
+irule_location: https://raw.githubusercontent.com/yossi-r/asm_tls_fp_ansible/master/roles/operations/files/irules/
 irule_string: empty.irule
 asm_policy_location: url=https://raw.githubusercontent.com/yossi-r/asm_tls_fp_ansible/master/roles/operations/files/remote_asm1.xml
 ...
