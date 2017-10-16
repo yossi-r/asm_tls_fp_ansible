@@ -150,7 +150,7 @@ variables:
   value: auto
 - name: iapp__strictUpdates
   encrypted: 'no'
-  value: enabled
+  value: disabled
 - name: l7policy__defaultASM
   encrypted: 'no'
   value: bypass
