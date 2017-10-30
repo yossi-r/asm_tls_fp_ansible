@@ -73,7 +73,7 @@ With this solution we are using static threshold that is set as a variable in th
 
 Prerequisites:
 
-1. Bigip version 12.1+, licensed and provisioned with LTM-ASM
+1. Bigip version 12.1 Engineering Hotfix Version 1.262.271 (until 13.1 is out) , licensed and provisioned with LTM-ASM
 2. Supernetops container with ansible
 
 We are using the bigip as the victim and the protector, the bigip token auth REST API is the victim, the solution deploys a VIP with ASM policy and an iRule to mitigate the attack.
