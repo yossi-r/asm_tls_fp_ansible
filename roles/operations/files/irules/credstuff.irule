@@ -146,9 +146,6 @@ when ASM_REQUEST_BLOCKING {
   set activeViolation 1
    if {([lindex $x 0] contains "MaliciousFingerprint")} {
       if {$static::debug > 1} {log local0. "MaliciousFingerprint VIOLATIOND detected, let's customized reject page"}
-      #this really does not work like this
-      #HTTP::header insert com.f5.rest.common.RestRequestSender
-      #HTTP::header insert header_1 value_1
       #set blocked response with the username that was originally sent 
       set response "\{\"code\":401,\"message\":\"Authentication failed.\",\"originalRequestBody\":\"\{\"username\":\"$username\",\"generation\":0,\"lastUpdateMicros\":0\}\",\"referer\":\"10.128.10.111, 10.128.1.1\",\"restOperationId\":1217790,\"kind\":\":resterrorresponse\"\}"
       set decoyResponse "\{\"username\":\"$username\",\"loginReference\":\{\"link\":\"https://localhost/mgmt/cm/system/authn/providers/local/login\"\},\"loginProviderName\":\"local\",\"token\":\{\"token\":\"LKJDS3RXDBGTAFKXSOTMRK5X6H\",\"name\":\"LKJDS3RXDBGTAFKXSOTMRK5X6H\",\"userName\":\"$username\",\"authProviderName\":\"local\",\"user\":\{\"link\":\"https://localhost/mgmt/shared/authz/users/$username\"\},\"groupReferences\":\[\],\"timeout\":1200,\"startTime\":\"2017-10-16T22:06:30.029+0300\",\"address\":\"10.128.1.1\",\"partition\":\"\[All\]\",\"generation\":1,\"lastUpdateMicros\":1508180790028607,\"expirationMicros\":1508181990029000,\"kind\":\"shared:authz:tokens:authtokenitemstate\",\"selfLink\":\"https://localhost/mgmt/shared/authz/tokens/LKJDS3RXDBGTAFKXSOTMRK5X6H\"\},\"generation\":0,\"lastUpdateMicros\":0\}"
