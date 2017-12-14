@@ -558,7 +558,7 @@ proc set_version_info {} {
 proc curl_save_file { url filename {error_exit 1}} {
   debug [list curl_save_file start] "url=$url filename=$filename error_exit=$error_exit" 9
   set status [catch {
-    exec curl --connect-timeout 5 -k -s -w 'RESPCODE=\%\{response_code\}' -o $filename $url
+    exec curl --connect-timeout 15 -k -s -w 'RESPCODE=\%\{response_code\}' -o $filename $url
   } message]
 
   debug [list curl_save_file done] "status=$status message=$message" 9
