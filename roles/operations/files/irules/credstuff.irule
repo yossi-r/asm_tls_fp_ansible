@@ -239,7 +239,7 @@ proc fingerprintTLS { payload rlen outer inner clientip serverip } {
         set extensions_list ""
 
         ## Pad rlen by 1 byte
-        set rlen [expr ${rlen} + 1]
+        set rlen [expr {$rlen + 1}]
 
         while { [expr {${field_offset} <= ${rlen}}] } {
             ## Grab the first 2 bytes to determine the extension type
